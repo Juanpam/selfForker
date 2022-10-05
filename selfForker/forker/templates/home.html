@@ -1,0 +1,55 @@
+{% extends 'base.html' %} 
+{% block title %}Self Forker{% endblock %} 
+{% block content %}
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-12 mb-3">
+            <h4 class="text-center">Welcome @{{ user.username }}!</h4>
+            <p class="card-text">Now please choose a name for your new forked repository.</p>
+            <form action="{% url 'home' %}" class="needs-validation" method="post" novalidate>
+            {% csrf_token %}
+                <div class="mb-3">
+                    <label for="forkNameInput" class="form-label">New Fork Name</label>
+                    <input type="text" class="form-control" id="forkNameInput" aria-describedby="forkNameHelp" name="newForkName" required>
+                    <div id="forkNameHelp" class="form-text">Name of the new fork repo in your account.</div>
+                    <div class="valid-feedback">
+                        Creating new repo...
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a fork name.
+                    </div>
+                    {% if error_message %}<p class="text-danger"><strong>{{ error_message }}</strong></p>{% endif %}
+                    {% if newForkURL %}<p class="text-success"><strong>Your new fork is ready! Check it out here: <a href="{{ newForkURL }}">{{ newForkURL }}</a></strong></p>{% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Fork me!</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+<div class="card-footer">
+    <a class="btn btn-secondary btn-sm mt-3" role="button" href="{% url 'logout' %}">
+        Log Out
+    </a>
+</div>
+<script>
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %}

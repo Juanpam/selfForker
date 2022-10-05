@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+{% block title %}Log in{% endblock %} 
+{% block content %} 
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-12 mb-3">
+            <h4 class="text-center">Welcome to Self Forker!</h4>
+            <p class="card-text">This simple web application allows you to log-in using your Github account and create a fork of itself on your own Github account.</p>
+            <p>To start, please <strong>install the app in your account</strong> (this will log you in here automatically):</p>
+            <a class="btn btn-primary" role="button" href="https://github.com/apps/{{ appName }}/installations/new">
+                Install the app on your account!
+            </a>
+            <p class="my-3">If you have already installed the app, just log in:</p>
+            <a class="btn btn-primary" role="button" href="{% url 'social:begin' 'github' %}">
+                Log In with Github
+            </a>
+            {% for error_message in authErrorMessages %}
+            <p class="text-danger my-3"><strong>{{ error_message }}</strong></p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
